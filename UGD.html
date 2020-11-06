@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Tebak Angka</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+    <script src="vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div class="judul">
+            <h2>Game Tebak Angka</h2>
+        </div>
+            <div class="input">
+                <input type="number" class="form-control" v-model="tebakan" :disabled="isDisabled" placeholder="tebak angkanya dari 1-10"/>
+                <br>
+                <button class="btn btn-primary btn-sm" @click="tebak" :disabled="isDisabled">Tebak</button>
+                <br>
+                Kesempatan : {{ kesempatan }}
+
+            </div>
+        <div class="tb" v-show="benar">
+            <p>Tebakan Benar</p> 
+            <button class="btn btn-primary" @click="mainlagi" >main lagi</button>
+        </div>
+        <div class="ts" v-show="salah">
+            <p>Coba Tebak Lagi</p> 
+            <button class="btn btn-primary" @click="cobalagi" >Coba lagi</button>
+        </div>
+        <div class="klh" v-show="kalah">
+            <p>Kesempatan telah habis dan anda kalah</p> 
+            <button class="btn btn-primary" @click="mainlagi" >main lagi</button>
+        </div>
+        <footer class="foot">
+            {{ `${foot.nama} | ${foot.npm} | ${foot.kelas}` }}
+        </footer>
+    </div>
+</body>
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            angka: Math.floor(Math.random() * 10)+1,
+            kesempatan:3,
+            salah:undefined,
+            benar:undefined,
+            kalah:undefined,
+            isDisabled:false,
+            foot: {
+                nama:'Marcellinus Axelle Redo Avila',
+                npm: '180709749',
+                kelas: 'A',
+            },
+        },
+        methods: {
+           tebak(){
+            if(this.tebakan == this.angka){
+                this.benar = 1;
+            }else {
+                    this.salah =1;
+                    this.isDisabled = true;
+                    this.kesempatan--;
+                    if(this.kesempatan==0){
+                        this.kalah=1;
+                        this.salah = undefined;
+                    }
+            }   
+           },
+           cobalagi(){
+                this.isDisabled = false;
+                this.salah = undefined;
+           },
+           mainlagi(){
+               location.reload();
+           }
+        },
+ 
+    });
+</script>
+</html>
