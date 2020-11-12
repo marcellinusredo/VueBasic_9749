@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>Tugas Vue Basic</title>
+  <script src="vue.js"></script>
+  
+</head>
+<body>
+    <div id="app">
+      <div class="d-flex justify-content-center">
+          <div class=" col-md-4 col-sm-12 mb-3 mt-4">
+              <div class="card-body bg-light mt-4">
+                <h1 align="center">{{ judul }}</h1>
+                    
+                  <div class="field">
+                        <label>To Do<label>
+                        <div class="control">
+                            <input class="input" type="text" placeholder="masukan kegiatan" id="kegiatan" v-model="kegiatan">
+                        </div>
+                    </div>
+
+                    <div class="field" >
+                        <label >Prioritas</label>
+                            <div class="control" >
+                                <div class="select" v-model="prioritas">
+                                <select name="jenisPengiriman" id="prioritas" v-model="prioritas"> 
+                                    <option value="Penting">Penting</option>
+                                    <option value="Biasa">Biasa</option>
+                                    <option value="Tidak Penting">Tidak Penting</option>
+                                </select>
+                                </div>
+                            </div>
+                    </div>
+
+                    <div class="field">
+                        <label>Catatan</label>
+                        <div class="columns">
+                            <div class="column" id="left">
+                                <div class="field">
+                                    <div class="control">
+                                        <textarea class="textarea" type="textarea" placeholder="masukan catatan" id="Informasi" v-model="catatan"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-primary btn-sm" style="background-color: green;" name="add" @click="addData()">Submit</button>
+                        <button class="btn btn-primary btn-sm" style="background-color: red;" name="cancel" @click="cancelData()">Cancel</button>
+                    </div>
+              </div>
+              <div class="card-body ">
+                <ul v-for="(data, index) in rows" class="mt-1 mr-5">
+                    <div class="columns border bg-light" align="center">
+                                <span v-if ="data.prioritas == 'Penting'"> 
+                                    <label class="bg-danger">Prioritas : {{data.prioritas}}</label>
+                                </span>
+                                <span v-else-if ="data.prioritas == 'Biasa'"> 
+                                    <label class="bg-primary">Prioritas : {{data.prioritas}}</label>
+                                </span>
+                                <span v-else>
+                                    <label class="bg-success">Prioritas : {{data.prioritas}}</label> 
+                                </span>
+                            <h6 style="color: black;"><b>Kegiatan: {{data.kegiatan}} </b></h6>
+                            <p style="color: black;">Catatan :{{data.catatan}}</p>
+                            <button class="btn btn-primary btn-sm" style="background-color: red;" name="deleteData" @click="deleteData(index)">Delete</button>
+                    </div>
+                </ul>
+              </div>
+              <br>
+          </div>
+      </div>
+      <br>
+        <footer>
+          <h6 align="center">{{ `${foot.nama} | ${foot.npm} | ${foot.kelas}` }}</h6>
+        </footer>
+    </div>
+    
+</body>
+
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            rows:[],
+            judul: "To Do List",
+            foot: {
+                nama:'Marcellinus Axelle Redo Avila',
+                npm: '180709749',
+                kelas: 'A',
+            },
+            catatan:'',
+            kegiatan:'',
+            prioritas:''
+        },
+        methods: {
+            addData(){
+               if(this.kegiatan == '' || this.prioritas == ''||this.catatan == '')
+               {
+                   alert("Isi datanya dulu");
+               }else{
+                   this.rows.push({
+                   kegiatan: this.kegiatan,
+                   prioritas : this.prioritas,
+                   catatan : this.catatan
+                    })
+                    this.kegiatan ='';
+                    this.catatan='';
+                    this.prioritas='';
+               }
+           },
+           cancelData(){
+                this.kegiatan ='';
+                this.catatan='';
+                this.prioritas='';
+            },
+            deleteData(index){
+                this. rows.splice(index, 1)
+            }
+        },
+    })
+</script>
+
+<style>
+    footer {
+        bottom: 0;
+        text-align: center;
+        color: black;
+        }
+    </style>
+</html>
